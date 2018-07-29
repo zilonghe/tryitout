@@ -9,13 +9,17 @@ import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
+/**
+ * @author hezilong
+ */
 @Component
 public class ContactServiceImpl implements ContactService
 {
     private final ContactDao contactDao;
 
-    private final RedisTemplate redisTemplate;
+    private final RedisTemplate<String, Contact> redisTemplate;
 
     @Autowired
     public ContactServiceImpl(ContactDao contactDao, RedisTemplate redisTemplate)
@@ -27,9 +31,21 @@ public class ContactServiceImpl implements ContactService
     @Override
     public List<Contact> getAllContacts()
     {
+        return contactDao.findAll();
+    }
+
+    @Override
+    public Contact getContactById(Long id) {
+        String key = "Contact_" + id;
         ValueOperations<String, Contact> valueOperations = redisTemplate.opsForValue();
 
-        return contactDao.findAll();
+        if (redisTemplate.hasKey(key)) {
+            return valueOperations.get(key);
+        }
+        Contact contactById = contactDao.findContactById(id);
+
+        valueOperations.set(key, contactById, 10, TimeUnit.SECONDS);
+        return contactById;
     }
 
     @Override

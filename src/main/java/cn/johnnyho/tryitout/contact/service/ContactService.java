@@ -4,6 +4,9 @@ import cn.johnnyho.tryitout.contact.model.Contact;
 
 import java.util.List;
 
+/**
+ * @author hezilong
+ */
 public interface ContactService
 {
     /**
@@ -11,6 +14,13 @@ public interface ContactService
      * @return 账号信息列表
      */
     List<Contact> getAllContacts();
+
+    /**
+     * 根据id获取账号
+     * @param id id
+     * @return 账号信息
+     */
+    Contact getContactById(Long id);
 
     /**
      * 插入新的账号

@@ -4,8 +4,10 @@ import cn.johnnyho.tryitout.contact.model.Contact;
 import cn.johnnyho.tryitout.contact.service.ContactService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
@@ -35,5 +37,12 @@ public class ContactController
     {
         contactService.insertContact(contact);
         return "redirect:/";
+    }
+
+    @RequestMapping(value = "/api/contact/{id}", method = RequestMethod.GET)
+    public Contact findOneContact(@PathVariable("id") Long id)
+    {
+        Contact contactById = contactService.getContactById(id);
+        return contactById;
     }
 }

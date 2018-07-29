@@ -21,6 +21,14 @@
         from contacts
     </select>
 
+    <select id="findContactById" resultType="cn.johnnyho.tryitout.contact.model.Contact">
+        select
+        <include refid="Base_Column_List" />
+        from contacts
+        where
+        id = #{id}
+    </select>
+
     <insert id="save" parameterType="cn.johnnyho.tryitout.contact.model.Contact">
         insert into
         contacts
