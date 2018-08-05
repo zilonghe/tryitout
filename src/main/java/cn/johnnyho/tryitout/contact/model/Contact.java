@@ -2,6 +2,9 @@ package cn.johnnyho.tryitout.contact.model;
 
 import java.io.Serializable;
 
+/**
+ * @author hezilong
+ */
 public class Contact implements Serializable
 {
     private Long id;

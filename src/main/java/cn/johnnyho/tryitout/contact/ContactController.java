@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+/**
+ * @author hezilong
+ */
 @RestController
 @RequestMapping("/")
 public class ContactController
@@ -38,6 +41,7 @@ public class ContactController
     @RequestMapping(value = "/api/contact/{id}", method = RequestMethod.GET)
     public Contact findOneContact(@PathVariable("id") Long id)
     {
-        return contactService.getContactById(id);
+        Contact contactById = contactService.getContactById(id);
+        return contactById;
     }
 }

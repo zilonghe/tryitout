@@ -37,25 +37,18 @@ public class ContactServiceImpl implements ContactService
         return contactDao.findAll();
     }
 
+    @Cacheable(value="contactInfo", key="'id_'+#id", unless="#result == null")
     @Override
     public Contact getContactById(Long id) {
-//        String key = "Contact_" + id;
-//        ValueOperations<String, Contact> valueOperations = redisTemplate.opsForValue();
-//        if (redisTemplate.hasKey(key)) {
-//            return valueOperations.get(key);
-//        }
-//        Contact contactById = contactDao.findContactById(id);
-//        valueOperations.set(key, contactById, 10, TimeUnit.SECONDS);
-//        return contactById;
-        return getContactByIdAnnotatation(id);
+        return getContact(id);
     }
 
-    @Cacheable(value="contactInfo", key="'id_'+#id")
-    public Contact getContactByIdAnnotatation(Long id) {
+    private Contact getContact(Long id) {
+        System.out.println("cache not hit, query db");
         return contactDao.findContactById(id);
     }
 
-    @CachePut(value="contactInfo", key="'id_'+#contact.getId()")
+    //    @CachePut(value="contactInfo", key="'id_'+#contact.getId()")
     @Override
     public void insertContact(Contact contact)
     {
